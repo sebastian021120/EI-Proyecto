@@ -1,20 +1,14 @@
 //VARIABLES GLOBALES:
 
 	Button aire;
-	String Estado;
 	int Idestado,Idatrixtipo;
-
-
-
-//BOTON QUE ESTA EN LA INTERFAZ DE LOS COMPONENTES
-// �CREANDO ESAS VARIABLES MANI DE IDESTADO - ID ATRIXTIPO Y ESTADO SI ME LO DEJO INSERTAR EN LA BASE DE DATOS? HACERLO ASI SI ES O QUE?
-
+        String compoGenericos = ""; //LO HACE EN LOS OTROS BOTONES DE LOS COMPONENTES
+	
 	 public void aire(View v){
-		  		
+		compoGenericos = "aire";
+		
 			aire = (Button)findViewById(R.id.Button1);		
 			String estados[] = {"Encendido","Apagado"};
-			Idestado = 1;
-			Idatrixtipo = 10;
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(Componentes.this);
 			builder.setTitle("Estado del Aire").setItems(estados, new DialogInterface.OnClickListener() {
@@ -48,7 +42,20 @@
 //BOTON INSERTAR MANI -----------------------------
 
 public void insertar(View v){
-        	
+        	EditText idEst = (EditText) findViewById(R.id.idestado);
+		String idEstado = idEst.getText().toString();
+		if(compoGenericos.equals("aire")){
+		Idatrixtipo = 10;
+		}
+		if(compoGenericos.equals("ELOTRO")){
+		Idatrixtipo = 20;
+		}
+		if(compoGenericos.equals("ELOTRO")){
+		Idatrixtipo = 30;
+		}
+		if(compoGenericos.equals("ELOTRO")){
+		Idatrixtipo = 40;
+		}
     	
     	new Thread(new Runnable() {
 			
