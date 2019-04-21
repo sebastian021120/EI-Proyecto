@@ -1,1 +1,91 @@
-Suba el proyecto cholo blanco
+//VARIABLES GLOBALES:
+
+	Button aire;
+	String Estado;
+	int Idestado,Idatrixtipo;
+
+
+
+//BOTON QUE ESTA EN LA INTERFAZ DE LOS COMPONENTES
+// �CREANDO ESAS VARIABLES MANI DE IDESTADO - ID ATRIXTIPO Y ESTADO SI ME LO DEJO INSERTAR EN LA BASE DE DATOS? HACERLO ASI SI ES O QUE?
+
+	 public void aire(View v){
+		  		
+			aire = (Button)findViewById(R.id.Button1);		
+			String estados[] = {"Encendido","Apagado"};
+			Idestado = 1;
+			Idatrixtipo = 10;
+			
+			AlertDialog.Builder builder = new AlertDialog.Builder(Componentes.this);
+			builder.setTitle("Estado del Aire").setItems(estados, new DialogInterface.OnClickListener() {
+				
+				
+				
+				@Override
+				public void onClick(DialogInterface dialog, int estado) {
+					
+					if(estado == 0){
+						
+						aire.setBackgroundResource(R.drawable.aire2);
+						Estado = "on";
+					}
+					
+					if(estado == 1){
+						Estado = "off";
+						aire.setBackgroundResource(R.drawable.aire1);	
+					}
+					
+					
+				}
+			}).setNegativeButton("Cancelar", null).show();
+		
+	}
+
+
+
+
+
+//BOTON INSERTAR MANI -----------------------------
+
+public void insertar(View v){
+        	
+    	
+    	new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+
+
+				
+				String response = HttpRequest.get("http://"+Constantes.ip+"serviciosProyecto/insertarEstado.php?" +
+												  "Idestado=" + Idestado +
+												  "&Estado=" + Estado +
+												  "&Idatrixtipo=" + Idatrixtipo).body();
+				
+				System.out.println("Respuesta: " + response);
+				
+				try {
+					
+					JSONArray obj = new JSONArray(response);
+					
+					for (int i = 0; i < obj.length(); i++) {
+						
+						mensaje = mensaje + "Id Estado: " + obj.getJSONArray(i).getString(0) + " ";
+						mensaje = mensaje + "Estado: " + obj.getJSONArray(i).getString(1) + " ";
+						mensaje = mensaje + "Id Atributo: " + obj.getJSONArray(i).getString(2) + " ";
+						
+						System.out.println("Datos: " + mensaje);
+						
+					}
+				} catch (JSONException e) {
+					
+					e.printStackTrace();
+				}
+				
+				
+			}
+		}).start();
+    	
+    	Toast.makeText(this, "Consultar Base de Datos", Toast.LENGTH_LONG).show();
+    	
+}					
